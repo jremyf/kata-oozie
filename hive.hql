@@ -1,0 +1,1 @@
+CREATE DATABASE IF NOT EXISTS dev_beeline_usertest; CREATE EXTERNAL TABLE IF NOT EXISTS dev_beeline_userX.books_usertest(id int, title string, author string, numberWords int, category string) row format delimited fields terminated by ',' stored as textfile location '/user/userX/my_external_table_userX';
