@@ -1,0 +1,40 @@
+<workflow-app name="sqoop-workflow" xmlns="uri:oozie:workflow:0.1">
+<start to="sqoop-action"/>
+<action name="sqoop-action">
+<sqoop xmlns="uri:oozie:sqoop-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+    <!-- fill here with sqoop specific instructions -->
+</sqoop>
+<ok to="shell-action"/>
+<error to="error"/>
+</action>
+<action name="shell-action">
+<shell xmlns="uri:oozie:shell-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<exec>echo</exec> 
+<argument>"Succeded !!"</argument>
+</shell>
+<ok to="myHiveAction"/>
+<error to="error"/>
+</action>
+
+<action name="myHiveAction">
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+    <!-- fill here with hive specific instructions (hive-site.xml file and hive.hql file -->
+</hive>
+<ok to="done"/>
+<error to="error"/>
+</action>
+
+
+    <kill name="error">
+        <message>Workflow failed, error
+            message[${wf:errorMessage(wf:lastErrorNode())}]
+        </message>
+    </kill>
+    <end name='done' />
+</workflow-app>
